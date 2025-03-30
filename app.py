@@ -1,22 +1,26 @@
+import os
 from flask import Flask, request, jsonify
-from database_module import init_db, TrackDb
+from src.database_module import init_db, TrackDb
+from src.config_module import loadConfig
+
+import argparse
+
+parser = argparse.ArgumentParser(description='Run the Flask application.')
+parser.add_argument('-p','--port', type=int, default=80, help='Port to run the application on.')
+parser.add_argument('-d','--debug', action='store_true', help='Enable debug mode.')
+args = parser.parse_args()
+
+
 
 app = Flask(__name__)
 
-# Database configuration (using MySQL from config)
-app.config['DATABASE'] = {
-    'username': 'flask_test',
-    'password': 'flask_test',
-    'host': '127.0.0.1',
-    'port': 3306,
-    'database': 'vamos_cloud_app'
-}
-
-# Inicjalizujemy SQLAlchemy i model TrackDb
-db_sqlalchemy = init_db(app)
-
 # Create tables if they do not exist
 with app.app_context():
+    config = loadConfig(config_path="api_config.ini") 
+    app.config['DATABASE'] = config['DATABASE']
+    
+    db_sqlalchemy = init_db(app)
+    
     db_sqlalchemy.create_all()
 
 # -------------------- GET all tracks --------------------
@@ -83,4 +87,7 @@ def update_track():
 
 # -------------------- Start Flask server --------------------
 if __name__ == '__main__':
-    app.run(debug=True)
+    if args.debug:
+        app.run(debug=True, port=int(os.environ.get('PORT', args.port)))
+    else:
+        app.run(debug=False,host='0.0.0.0',port=int(os.environ.get('PORT', args.port)))

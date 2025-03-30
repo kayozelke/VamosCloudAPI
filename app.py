@@ -46,26 +46,41 @@ def get_tracks():
 @app.route('/object', methods=['GET'])
 def get_track_by_name():
     name = request.args.get('name')
+    id = request.args.get('id')
     exact_match = request.args.get('exact_match', 'false').lower() == 'true'
 
-    if not name:
-        return jsonify({"error": "Missing 'name' parameter"}), 400
+    if not name and not id:
+        return jsonify({"error": "Missing 'name' or 'id' parameter"}), 400
     
-    if exact_match:
-        track = TrackDb.query.filter_by(song=name).first()
-    else:
-        track = TrackDb.query.filter(TrackDb.song.ilike(f"%{name}%")).first()
+    if name and id:
+        return jsonify({"error": "Use 'name' or 'id' parameter, not both"}), 400
     
-    if track:
-        return jsonify({ 
-            "id": track.id, "song": track.song, "artist": track.artist, "streams": track.streams, 
-            "daily_streams": track.daily_streams, "genre": track.genre, "release_year": track.release_year,
-            "peak_position": track.peak_position, "weeks_on_chart": track.weeks_on_chart,
-            "lyrics_sentiment": track.lyrics_sentiment, "tiktok_virality": track.tiktok_virality,
-            "danceability": track.danceability, "acousticness": track.acousticness, "energy": track.energy 
-        })
-    else:
-        return jsonify({"error": "Track not found"}), 404
+    if name:
+        if exact_match:
+            track = TrackDb.query.filter_by(song=name).first()
+        else:
+            track = TrackDb.query.filter(TrackDb.song.ilike(f"%{name}%")).first()
+        
+        if track:
+            return jsonify({ 
+                "id": track.id, "song": track.song, "artist": track.artist, "streams": track.streams, 
+                "daily_streams": track.daily_streams, "genre": track.genre, "release_year": track.release_year,
+                "peak_position": track.peak_position, "weeks_on_chart": track.weeks_on_chart,
+                "lyrics_sentiment": track.lyrics_sentiment, "tiktok_virality": track.tiktok_virality,
+                "danceability": track.danceability, "acousticness": track.acousticness, "energy": track.energy 
+            })
+    elif id:
+        track = TrackDb.query.get(id)
+        if track:
+            return jsonify({ 
+                "id": track.id, "song": track.song, "artist": track.artist, "streams": track.streams, 
+                "daily_streams": track.daily_streams, "genre": track.genre, "release_year": track.release_year,
+                "peak_position": track.peak_position, "weeks_on_chart": track.weeks_on_chart,
+                "lyrics_sentiment": track.lyrics_sentiment, "tiktok_virality": track.tiktok_virality,
+                "danceability": track.danceability, "acousticness": track.acousticness, "energy": track.energy 
+            })
+    
+    return jsonify({"error": "Track not found"}), 404
 
 # -------------------- POST create new track --------------------
 @app.route('/object', methods=['POST'])

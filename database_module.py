@@ -34,44 +34,4 @@ def init_db(app):
         db_sqlalchemy.create_all()
 
     return db_sqlalchemy
-
-
-
-# def create_tables(engine, db_base = db_base):
-#     db_base.metadata.create_all(engine)   
-#     print("Tables created.")
-    
-# def check_and_create_tables(engine):
-#     inspector = db.inspect(engine)
-#     if 'tracks' not in inspector.get_table_names():
-#         create_tables(engine)
-        
-        
-# def get_tracks(engine):
-#     Session = db.orm.sessionmaker(bind=engine)
-#     session = Session()
-#     tracks = session.query(TrackDb).all()
-#     session.close()
-    
-#     result = []
-#     for track in tracks:
-#         result.append({
-#             'id': track.id,
-#             'song': track.song,
-#             'artist': track.artist,
-#             'streams': track.streams,
-#             'daily_streams': track.daily_streams,
-#             'genre': track.genre,
-#             'release_year': track.release_year,
-#             'peak_position': track.peak_position,
-#             'weeks_on_chart': track.weeks_on_chart,
-#             'lyrics_sentiment': track.lyrics_sentiment,
-#             'tiktok_virality': track.tiktok_virality,
-#             'danceability': track.danceability,
-#             'acousticness': track.acousticness,
-#             'energy': track.energy
-#         })
-#     return result
-
-    
     

@@ -27,11 +27,11 @@ Update the `api_config.ini` file with your database credentials:
 
 ```ini
 [DATABASE]
-DB_USER = your_db_user
-DB_PASSWORD = your_db_password
-DB_HOST = localhost
-DB_PORT = 3306
-DB_NAME = vamoscloud_db
+username = admin
+password = admin
+host = localhost
+port = 3306
+database = vamos_cloud_app
 ```
 
 ## API Methods

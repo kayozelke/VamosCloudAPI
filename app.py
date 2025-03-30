@@ -44,10 +44,15 @@ def get_tracks():
 @app.route('/object', methods=['GET'])
 def get_track_by_name():
     name = request.args.get('name')
+    exact_match = request.args.get('exact_match', 'false').lower() == 'true'
+
     if not name:
         return jsonify({"error": "Missing 'name' parameter"}), 400
     
-    track = TrackDb.query.filter_by(song=name).first()
+    if exact_match:
+        track = TrackDb.query.filter_by(song=name).first()
+    else:
+        track = TrackDb.query.filter(TrackDb.song.ilike(f"%{name}%")).first()
     
     if track:
         return jsonify({ 

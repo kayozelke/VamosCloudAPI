@@ -22,6 +22,12 @@ with app.app_context():
     db_sqlalchemy = init_db(app)
     
     db_sqlalchemy.create_all()
+    
+
+@app.route('/', methods=['GET'])
+def index():
+    return '<h1>The API works fine!</h1>'
+    
 
 # -------------------- GET all tracks --------------------
 @app.route('/objects', methods=['GET'])

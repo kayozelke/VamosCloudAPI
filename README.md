@@ -14,7 +14,8 @@ This API was used as a practical example to pass a PUT course during the authors
 * **Python 3.x**
 * **Flask:** A micro web framework for Python.
 * **SQLAlchemy:** An SQL toolkit and Object-Relational Mapper (ORM).
-* **MySQL/MariaDB:** A relational database management system.
+* **Flask-SQLAlchemy**
+* **PyMySQL**
 
 
 ## Database Setup (MySQL/MariaDB)

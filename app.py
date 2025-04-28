@@ -7,7 +7,7 @@ from src.config_module import loadConfig
 import argparse
 
 parser = argparse.ArgumentParser(description='Run the Flask application.')
-parser.add_argument('-p','--port', type=int, default=80, help='Port to run the application on.')
+parser.add_argument('-p','--port', type=int, default=5005, help='Port to run the application on.')
 parser.add_argument('-d','--debug', action='store_true', help='Enable debug mode.')
 args = parser.parse_args()
 
